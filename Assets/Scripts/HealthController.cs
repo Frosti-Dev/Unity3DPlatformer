@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine.Events;
 using System.Linq;
+using Unity.VisualScripting;
 
 /// <summary>
 /// Handles health, damage, and death behavior for game objects.
@@ -196,7 +197,7 @@ public class HealthController : MonoBehaviour
 			Destroy(gameObject);
 		}
 	}
-	
+
 	/// <summary>
 	/// Respawns the entity at the appropriate position and resets its state
 	/// </summary>
@@ -219,6 +220,7 @@ public class HealthController : MonoBehaviour
 			
 		transform.position = respawnPoint;
 		health = maxHealth;
+		previousHealth = maxHealth;
 		spawnedInTime = Time.time;
 
         if (animator)

@@ -2,6 +2,7 @@ using DG.Tweening;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -27,6 +28,9 @@ public class GameManager : Singleton<GameManager>
                 }
             }
     }
+
+    //level access
+     private GameObject iceAccess;
 
     MenuCreator menuHelper;
     public MenuCreator MenuHelper { get => menuHelper; }
@@ -54,6 +58,10 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     protected override void Awake()
     {
+        iceAccess = GameObject.Find("iceLevelAccess");
+
+        iceAccess.SetActive(false);
+
         base.Awake();
 
         if (creationFailed)
@@ -99,6 +107,11 @@ public class GameManager : Singleton<GameManager>
         if (trackPlayerCount != PlayerController.players.Count) {
             trackPlayerCount = PlayerController.players.Count;
             ToggleShowPressStartToJoin();
+        }
+
+        if(CoinsCollected == 10)
+        {
+            iceAccess.SetActive(true);
         }
     }
 
@@ -184,4 +197,5 @@ public class GameManager : Singleton<GameManager>
         menuHelper.HideMenu();
         _isShowingPauseMenu = false;
     }
+
 }
