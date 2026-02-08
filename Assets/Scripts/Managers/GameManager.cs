@@ -30,7 +30,8 @@ public class GameManager : Singleton<GameManager>
     }
 
     //level access
-     private GameObject iceAccess;
+    private GameObject iceAccess;
+    private GameObject goal;
 
     MenuCreator menuHelper;
     public MenuCreator MenuHelper { get => menuHelper; }
@@ -59,8 +60,10 @@ public class GameManager : Singleton<GameManager>
     protected override void Awake()
     {
         iceAccess = GameObject.Find("iceLevelAccess");
+        goal = GameObject.Find("Goal");
 
         iceAccess.SetActive(false);
+        goal.SetActive(false);
 
         base.Awake();
 
@@ -112,6 +115,11 @@ public class GameManager : Singleton<GameManager>
         if(CoinsCollected == 10)
         {
             iceAccess.SetActive(true);
+        }
+
+        if (CoinsCollected == 20)
+        {
+            goal.SetActive(true);
         }
     }
 
