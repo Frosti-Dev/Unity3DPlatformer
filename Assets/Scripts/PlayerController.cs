@@ -133,6 +133,12 @@ public class PlayerController : MonoBehaviour
             dashController.TryStartDash(moveDirection);
     }
 
+    void OnSprint()
+    {
+        if (!GameManager.Instance.IsShowingPauseMenu && moveController)
+            moveController.StartSprint();
+    }
+
     void OnCameraOrbit(InputValue inputVal)
     {
         CameraFollower.OrbitInput = inputVal.Get<float>();

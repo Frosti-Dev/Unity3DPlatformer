@@ -88,7 +88,7 @@ public class DashController : MonoBehaviour
         UpdateDash();
     }
 
-    private void CreateAfterImage()
+    public void CreateAfterImage()
     {
         foreach (var mf in meshFilters)
         {

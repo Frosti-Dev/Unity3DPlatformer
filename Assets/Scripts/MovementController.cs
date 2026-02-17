@@ -15,6 +15,7 @@ public class MovementController : MonoBehaviour
     public float maxVelocity = 9f;
     public float Acceleration = 70f;
     public float Friction = 7.6f;
+	public bool isSprinting;
 
 
 
@@ -24,6 +25,7 @@ public class MovementController : MonoBehaviour
 	protected Rigidbody rb;
     protected Collider mainCollider;
 	protected Animator animator;
+	protected DashController dashController;
     protected Vector3 baseModelScale;
     public bool overrideCanJump { get; set; } = false;
 
@@ -255,4 +257,20 @@ public class MovementController : MonoBehaviour
 	{
 		overridingMultiplyForceAndFriction = _overridingValues;
 	}
+
+	public void StartSprint()
+	{
+		isSprinting = true;
+		Acceleration = 140f;
+
+        if (trail)
+        {
+            trail.startColor = new Color(dashController.dashTrailColor.r, dashController.dashTrailColor.g, dashController.dashTrailColor.b, trail.startColor.a);
+            trail.endColor = new Color(dashController.dashTrailColor.r, dashController.dashTrailColor.g, dashController.dashTrailColor.b, trail.endColor.a);
+        }
+
+        ApplyCustomSquashEffect(new Vector3(0.5f, 1.0f, 2.0f));
+
+        dashController.CreateAfterImage();
+    }
 }

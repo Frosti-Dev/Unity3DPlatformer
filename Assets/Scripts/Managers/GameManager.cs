@@ -59,11 +59,13 @@ public class GameManager : Singleton<GameManager>
     // Start is called before the first frame update
     protected override void Awake()
     {
-        iceAccess = GameObject.Find("iceLevelAccess");
-        goal = GameObject.Find("Goal");
 
-        iceAccess.SetActive(false);
-        goal.SetActive(false);
+        //iceAccess = GameObject.Find("iceLevelAccess");
+        
+        //goal = GameObject.Find("Goal");
+
+        //iceAccess.SetActive(false);
+        //goal.SetActive(false);
 
         base.Awake();
 
