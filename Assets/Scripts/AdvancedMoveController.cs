@@ -32,6 +32,7 @@ public class AdvancedMoveController : MovementController
     public float airRotationSpeed = 0.38f;
     public float airAcceleration = 18f;
     public float airFriction = 1.1f;
+    public float wallrunSpeed = 18f;
 
     [Header("Jump Settings")]
     [Tooltip("Jump forces for consecutive jumps (base jump, double jump, etc)")]
@@ -59,6 +60,7 @@ public class AdvancedMoveController : MovementController
 
     // State properties
     public bool isGrounded { get; private set; }
+    public bool isWallrunning;
     public float slopeAngle { get; private set; }
     public Vector3 platformVelocity { get; private set; }
     public float timeGrounded { get; private set; }

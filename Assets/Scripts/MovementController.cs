@@ -66,6 +66,9 @@ public class MovementController : MonoBehaviour
         // Store original scale for animation effects
         if (animator)
             baseModelScale = animator.transform.localScale;
+
+
+        trail = GetComponentInChildren<TrailRenderer>();
     }
 
 	public virtual void Update() {
@@ -78,8 +81,9 @@ public class MovementController : MonoBehaviour
                 Time.fixedDeltaTime * SquashAndStretchRecoverSpeed
             );
         }
+
     }
-	private void ConfigureRigidbody()
+    private void ConfigureRigidbody()
 	{
 		rb.interpolation = RigidbodyInterpolation.Interpolate;
 		rb.constraints = RigidbodyConstraints.FreezeRotation;
@@ -260,17 +264,24 @@ public class MovementController : MonoBehaviour
 
 	public void StartSprint()
 	{
-		isSprinting = true;
-		Acceleration = 140f;
+		
+        isSprinting = true;
 
-        if (trail)
-        {
-            trail.startColor = new Color(dashController.dashTrailColor.r, dashController.dashTrailColor.g, dashController.dashTrailColor.b, trail.startColor.a);
-            trail.endColor = new Color(dashController.dashTrailColor.r, dashController.dashTrailColor.g, dashController.dashTrailColor.b, trail.endColor.a);
-        }
+		maxVelocity = 18f;
 
-        ApplyCustomSquashEffect(new Vector3(0.5f, 1.0f, 2.0f));
+        Acceleration = 140f;
 
-        dashController.CreateAfterImage();
+	}
+
+    public void EndSprint()
+    {
+		isSprinting = false;
+
+		maxVelocity = 9f;
+
+		Acceleration = 70f;
+
     }
+
 }
+

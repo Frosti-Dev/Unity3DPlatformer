@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private AdvancedMoveController moveController;
     private Rigidbody rb;
     private DashController dashController;
+    private WallRunning wr;
     
     // Movement state
     private Vector3 moveDirection;
@@ -63,6 +64,7 @@ public class PlayerController : MonoBehaviour
         // Cache component references
         moveController = GetComponent<AdvancedMoveController>();
         rb = GetComponent<Rigidbody>();
+        wr = GetComponent<WallRunning>();
         CameraFollower = GetComponentInChildren<ThirdPersonCamera>();
         characterAnimator = GetComponentInChildren<Animator>();
         healthComponent = GetComponent<HealthController>();
@@ -136,7 +138,18 @@ public class PlayerController : MonoBehaviour
     void OnSprint()
     {
         if (!GameManager.Instance.IsShowingPauseMenu && moveController)
-            moveController.StartSprint();
+        {
+            if (!moveController.isSprinting)
+            {
+                moveController.StartSprint();
+            }
+
+            else
+            {
+                moveController.EndSprint();
+            }
+        }
+
     }
 
     void OnCameraOrbit(InputValue inputVal)
