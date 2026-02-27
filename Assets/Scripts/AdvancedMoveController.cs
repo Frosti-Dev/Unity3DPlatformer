@@ -1,4 +1,6 @@
 using System;
+using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,7 +12,7 @@ using UnityEngine.Events;
 [RequireComponent(typeof(CapsuleCollider))]
 public class AdvancedMoveController : MovementController
 {
-    [Header("Ground Detection")]
+    [Header("Ground/Wall Detection")]
     [Tooltip("Maximum stair step that the character can climb")]
     public float maxStepClimbable = 2.0f;
     [Tooltip("Maximum slope angle (in degrees) that the character can traverse")]
@@ -23,6 +25,8 @@ public class AdvancedMoveController : MovementController
     public float platformGripForce = 7.7f;
     [Tooltip("Extra height to add to ground check")]
     public float extraGroundingHeightCheck = 0.1f;
+
+    public LayerMask wallRunnable;
 
     [Header("Combat")]
     [Tooltip("Damage applied when jumping on an enemy")]
@@ -61,6 +65,7 @@ public class AdvancedMoveController : MovementController
     // State properties
     public bool isGrounded { get; private set; }
     public bool isWallrunning;
+    public bool isInterupted;
     public float slopeAngle { get; private set; }
     public Vector3 platformVelocity { get; private set; }
     public float timeGrounded { get; private set; }
@@ -121,6 +126,7 @@ public class AdvancedMoveController : MovementController
         lastJumpRequestTime = Time.time;
         if (((timeGrounded > groundedTimeBeforeJump && slopeAngle < maxTraversableSlope) || overrideCanJump) && lastJumpedTime + 0.15f < lastJumpRequestTime)
         {
+            if (isWallrunning) isInterupted = false;
             PerformJump();
             return true;
         }
@@ -132,6 +138,7 @@ public class AdvancedMoveController : MovementController
     /// </summary>
     private void PerformJump()
     {
+        
         // Prevent jumping too close together from last jump.
         if (lastJumpedTime + 0.15f > Time.time || timeGrounded < groundedTimeBeforeJump)
             return;
@@ -316,6 +323,81 @@ public class AdvancedMoveController : MovementController
             {
                 rb.linearVelocity = Vector3.zero;
             }
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // Wallrunning Checks
+        RaycastHit hit;
+        if (collision.gameObject.CompareTag("WallRunnable"))
+        {
+            Physics.Raycast(transform.position, transform.right, out hit, 0.7f, wallRunnable);
+            Debug.Log("called");
+            StartCoroutine(WallRun(hit.normal, true, MathF.Sqrt(13 * -2f)));
+            return;
+        }
+
+        else if (Physics.Raycast(transform.position, -transform.right, out hit, 0.7f, wallRunnable))
+        {
+            Physics.Raycast(transform.position, -transform.right, out hit, 0.7f, wallRunnable);
+            Debug.Log("called");
+            StartCoroutine(WallRun(-hit.normal, false, MathF.Sqrt(13 * -2f)));
+            return;
+        }
+    }
+
+    //Wallrunning
+
+    IEnumerator WallRun(Vector3 direction, bool isRight, float yVelocity)
+    {
+        isInterupted = true;
+        Debug.Log("Start Coroutine");
+        Vector3 targetDirection = Vector3.Cross(transform.up, direction);
+
+        //checks right wall
+        if (isRight)
+        {
+            while(Physics.Raycast(transform.position, transform.right, 0.6f, wallRunnable)) //still next to wall
+            {
+                targetDirection = Vector3.Cross(transform.up, direction);
+
+                if(isInterupted == false) yield break;
+
+                targetDirection *= wallrunSpeed;
+
+                targetDirection += Vector3.up * yVelocity;
+                
+
+                ApplyMovement(targetDirection * Time.deltaTime);
+                maxVelocity = 0;
+                rb.useGravity = false;
+                yield return null;
+            }
+            isInterupted = false;
+
+        }
+
+        //checks left wall
+        else
+        {
+            while (Physics.Raycast(transform.position, -transform.right, 0.6f, wallRunnable)) //still next to wall
+            {
+                targetDirection = Vector3.Cross(transform.up, direction);
+
+                if (isInterupted == false) yield break;
+
+                targetDirection *= wallrunSpeed;
+
+                targetDirection += Vector3.up * yVelocity;
+
+
+                ApplyMovement(targetDirection * Time.deltaTime);
+                maxVelocity = 0;
+                rb.useGravity = false;
+                yield return null;
+            }
+            isInterupted = false;
         }
     }
 } 

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -119,6 +120,7 @@ public class PlayerController : MonoBehaviour
     {
         if (!GameManager.Instance.IsShowingPauseMenu)
             moveController.RequestJump();
+
     }
 
     void OnPause()
@@ -135,11 +137,11 @@ public class PlayerController : MonoBehaviour
             dashController.TryStartDash(moveDirection);
     }
 
-    void OnSprint()
+    void OnSprint(InputValue inputValue)
     {
         if (!GameManager.Instance.IsShowingPauseMenu && moveController)
         {
-            if (!moveController.isSprinting)
+            if (inputValue.isPressed)
             {
                 moveController.StartSprint();
             }
@@ -175,19 +177,25 @@ public class PlayerController : MonoBehaviour
     /// </summary>
     void FixedUpdate()
     {
-        if (moveController.enabled) {
-            moveController.ApplyMovement(moveDirection);
-            moveController.UpdateMovement();
-        }
+        if (!moveController.isInterupted)
+        {
+            if (moveController.enabled)
+            {
+                moveController.ApplyMovement(moveDirection);
+                moveController.UpdateMovement();
+            }
 
-        // Normal movement
-        UpdateVisualFeedback();
+            // Normal movement
+            UpdateVisualFeedback();
 
-        if (transform.position.y < -1000f) {
-            CheckpointManager.TeleportPlayerToCheckpoint(gameObject);
-            if (CameraFollower)
-                CameraFollower.transform.position = gameObject.transform.position;
+            if (transform.position.y < -1000f)
+            {
+                CheckpointManager.TeleportPlayerToCheckpoint(gameObject);
+                if (CameraFollower)
+                    CameraFollower.transform.position = gameObject.transform.position;
+            }
         }
+        
     }
 
     /// <summary>

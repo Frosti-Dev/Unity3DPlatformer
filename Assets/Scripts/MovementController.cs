@@ -17,7 +17,7 @@ public class MovementController : MonoBehaviour
     public float Friction = 7.6f;
 	public bool isSprinting;
 
-
+	private AdvancedMoveController advancedMoveController;
 
 	private Vector3 currentVelocity;
 	public float distanceToDestination {get; set;}
@@ -58,9 +58,10 @@ public class MovementController : MonoBehaviour
 		rb = GetComponent<Rigidbody>();
 		mainCollider = GetComponent<Collider>();
 		animator = GetComponentInChildren<Animator>();
-		
-		// Set up rigidbody constraints
-		ConfigureRigidbody();
+        //advancedMoveController.wallRunnable = LayerMask.GetMask("WallRunnable");
+
+        // Set up rigidbody constraints
+        ConfigureRigidbody();
 		ApplyFrictionlessMaterial();
 
         // Store original scale for animation effects

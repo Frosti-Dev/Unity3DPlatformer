@@ -3,6 +3,7 @@ using Unity.VisualScripting.Dependencies.Sqlite;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+//currently not in use because it wouldnt work with the code used in this project. 
 public class WallRunning : MonoBehaviour
 {
     [Header("Wallrunning")]
@@ -60,6 +61,8 @@ public class WallRunning : MonoBehaviour
             WallRunningMovement();
     }
 
+
+    //will check if walls are close to the player
     private void CheckForWall()
     {
         wallRight = Physics.Raycast(transform.position, orientation.right, out rightWallhit, wallCheckDistance, wallRunnable);
@@ -67,11 +70,13 @@ public class WallRunning : MonoBehaviour
 
     }
 
+    //checks if the player is above the ground
     private bool AboveGround()
     {
         return !Physics.Raycast(transform.position,Vector3.down,minJumpHeight, ground);
     }
 
+    //checks states to start wall run
     private void StateMachine()
     {
         horizontalInput = moveAction.ReadValue<Vector2>().x;
@@ -90,6 +95,7 @@ public class WallRunning : MonoBehaviour
         }
     }
 
+    //starts wall run
     private void StartWallRun()
     {
         Debug.Log("Start Wallrunning");
@@ -97,9 +103,11 @@ public class WallRunning : MonoBehaviour
         advancedMoveController.maxVelocity = advancedMoveController.wallrunSpeed;
     }
 
+    //while on wall movement
     private void WallRunningMovement()
     {
-        rb.useGravity = false;
+
+        rb.useGravity = false; //turns off gravity of rigidbody
         rb.linearVelocity = new Vector3(rb.linearVelocity.x, 0f, rb.linearVelocity.z);
 
         Vector3 wallNormal = wallRight ? rightWallhit.normal : leftWallhit.normal;
@@ -117,6 +125,8 @@ public class WallRunning : MonoBehaviour
             rb.AddForce(-wallNormal * 100, ForceMode.Force);
     }
 
+
+    //stop the wall run
     private void StopWallRun()
     {
         Debug.Log("End Wallrunning");
