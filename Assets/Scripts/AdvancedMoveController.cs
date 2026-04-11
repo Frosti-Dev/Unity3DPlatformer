@@ -326,78 +326,78 @@ public class AdvancedMoveController : MovementController
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        // Wallrunning Checks
-        RaycastHit hit;
-        if (collision.gameObject.CompareTag("WallRunnable"))
-        {
-            Physics.Raycast(transform.position, transform.right, out hit, 0.7f, wallRunnable);
-            Debug.Log("called");
-            StartCoroutine(WallRun(hit.normal, true, MathF.Sqrt(13 * -2f)));
-            return;
-        }
+    //private void OnCollisionEnter(Collision collision)
+    //{
+    //    // Wallrunning Checks
+    //    RaycastHit hit;
+    //    if (collision.gameObject.CompareTag("WallRunnable"))
+    //    {
+    //        Physics.Raycast(transform.position, transform.right, out hit, 0.7f, wallRunnable);
+    //        Debug.Log("called");
+    //        StartCoroutine(WallRun(hit.normal, true, MathF.Sqrt(13 * -2f)));
+    //        return;
+    //    }
 
-        else if (Physics.Raycast(transform.position, -transform.right, out hit, 0.7f, wallRunnable))
-        {
-            Physics.Raycast(transform.position, -transform.right, out hit, 0.7f, wallRunnable);
-            Debug.Log("called");
-            StartCoroutine(WallRun(-hit.normal, false, MathF.Sqrt(13 * -2f)));
-            return;
-        }
-    }
+    //    else if (Physics.Raycast(transform.position, -transform.right, out hit, 0.7f, wallRunnable))
+    //    {
+    //        Physics.Raycast(transform.position, -transform.right, out hit, 0.7f, wallRunnable);
+    //        Debug.Log("called");
+    //        StartCoroutine(WallRun(-hit.normal, false, MathF.Sqrt(13 * -2f)));
+    //        return;
+    //    }
+    //}
 
     //Wallrunning
 
-    IEnumerator WallRun(Vector3 direction, bool isRight, float yVelocity)
-    {
-        isInterupted = true;
-        Debug.Log("Start Coroutine");
-        Vector3 targetDirection = Vector3.Cross(transform.up, direction);
+    //IEnumerator WallRun(Vector3 direction, bool isRight, float yVelocity)
+    //{
+    //    isInterupted = true;
+    //    Debug.Log("Start Coroutine");
+    //    Vector3 targetDirection = Vector3.Cross(transform.up, direction);
 
-        //checks right wall
-        if (isRight)
-        {
-            while(Physics.Raycast(transform.position, transform.right, 0.6f, wallRunnable)) //still next to wall
-            {
-                targetDirection = Vector3.Cross(transform.up, direction);
+    //    //checks right wall
+    //    if (isRight)
+    //    {
+    //        while(Physics.Raycast(transform.position, transform.right, 0.6f, wallRunnable)) //still next to wall
+    //        {
+    //            targetDirection = Vector3.Cross(transform.up, direction);
 
-                if(isInterupted == false) yield break;
+    //            if(isInterupted == false) yield break;
 
-                targetDirection *= wallrunSpeed;
+    //            targetDirection *= wallrunSpeed;
 
-                targetDirection += Vector3.up * yVelocity;
+    //            targetDirection += Vector3.up * yVelocity;
                 
 
-                ApplyMovement(targetDirection * Time.deltaTime);
-                maxVelocity = 0;
-                rb.useGravity = false;
-                yield return null;
-            }
-            isInterupted = false;
+    //            ApplyMovement(targetDirection * Time.deltaTime);
+    //            maxVelocity = 0;
+    //            rb.useGravity = false;
+    //            yield return null;
+    //        }
+    //        isInterupted = false;
 
-        }
+    //    }
 
-        //checks left wall
-        else
-        {
-            while (Physics.Raycast(transform.position, -transform.right, 0.6f, wallRunnable)) //still next to wall
-            {
-                targetDirection = Vector3.Cross(transform.up, direction);
+    //    //checks left wall
+    //    else
+    //    {
+    //        while (Physics.Raycast(transform.position, -transform.right, 0.6f, wallRunnable)) //still next to wall
+    //        {
+    //            targetDirection = Vector3.Cross(transform.up, direction);
 
-                if (isInterupted == false) yield break;
+    //            if (isInterupted == false) yield break;
 
-                targetDirection *= wallrunSpeed;
+    //            targetDirection *= wallrunSpeed;
 
-                targetDirection += Vector3.up * yVelocity;
+    //            targetDirection += Vector3.up * yVelocity;
 
 
-                ApplyMovement(targetDirection * Time.deltaTime);
-                maxVelocity = 0;
-                rb.useGravity = false;
-                yield return null;
-            }
-            isInterupted = false;
-        }
-    }
+    //            ApplyMovement(targetDirection * Time.deltaTime);
+    //            maxVelocity = 0;
+    //            rb.useGravity = false;
+    //            yield return null;
+    //        }
+    //        isInterupted = false;
+    //    }
+    //}
 } 

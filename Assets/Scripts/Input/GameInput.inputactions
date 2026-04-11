@@ -28,7 +28,7 @@
                     "name": "Interact",
                     "type": "Button",
                     "id": "a197a3a7-82e5-4702-9d0a-06d51366bcdb",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
@@ -37,7 +37,7 @@
                     "name": "CameraOrbit",
                     "type": "Value",
                     "id": "1f93c39c-0541-45cb-8cdd-e043967d370a",
-                    "expectedControlType": "Button",
+                    "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -77,6 +77,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "Freeze",
+                    "type": "Button",
+                    "id": "0b1f74a5-538d-453a-8c1f-0faef8cdcfc6",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -561,6 +570,17 @@
                     "processors": "",
                     "groups": ";KeyboardMouse",
                     "action": "Sprint",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f8c9d796-22ed-4517-a8ba-983a169792da",
+                    "path": "<Keyboard>/f",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";KeyboardMouse",
+                    "action": "Freeze",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

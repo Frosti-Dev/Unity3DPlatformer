@@ -9,6 +9,8 @@ public abstract class Interactable : MonoBehaviour
     protected Collider col;
     protected InteractionController currentInteractor;
 
+    public bool isFrozen;
+
     protected virtual void Awake()
     {
         TryGetComponent(out col);
@@ -38,7 +40,17 @@ public abstract class Interactable : MonoBehaviour
         }
         return true;
     }
-    
+
+    public virtual void Freeze()
+    {
+        isFrozen = true;
+    }
+
+    public virtual void UnFreeze()
+    {
+        isFrozen = false;
+    }
+
     public virtual void OnInteractedAlreadyInteracting(InteractionController controller)
     {
 

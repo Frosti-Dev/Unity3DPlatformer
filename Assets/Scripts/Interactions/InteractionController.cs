@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(PlayerController))]
@@ -33,6 +34,7 @@ public class InteractionController : MonoBehaviour
     private float defaultRotationSpeed;
     
     private Interactable currentInteractable;
+    private Interactable freezeableInteractable;
     private FixedJoint physicsJoint;
     private float lastInteractionTime;
     
@@ -134,6 +136,24 @@ public class InteractionController : MonoBehaviour
             BeginInteraction(interactablesInRange[0]);
         }
     }
+    public void OnFreeze()
+    {
+         if (!freezeableInteractable.isFrozen)
+         {
+            Debug.Log("Freeze");
+
+            freezeableInteractable.Freeze();
+         }
+
+         else
+         {
+            Debug.Log("UnFreeze");
+
+            freezeableInteractable.UnFreeze();
+         }
+        
+        
+    }
 
     void OnCancel()
     {
@@ -159,12 +179,15 @@ public class InteractionController : MonoBehaviour
         if (currentInteractable == null) return;
 
         var endingInteraction = currentInteractable;
+
+        freezeableInteractable = currentInteractable;
         currentInteractable = null;
-        
+
         PlaySound(releaseSound);
         endingInteraction.OnInteractionEnd(this);
         lastInteractionTime = Time.time;
         UpdateAnimator();
+        StartCoroutine(BufferTime());
     }
 
     private void UpdateAnimator()
@@ -212,5 +235,12 @@ public class InteractionController : MonoBehaviour
             return !Physics.CheckSphere(holdPosition, interactionRadius, GameManager.Instance.groundMask);
         }
         return true;
+    }
+
+    IEnumerator BufferTime()
+    {
+        yield return new WaitForSeconds(10f);
+
+        
     }
 } 

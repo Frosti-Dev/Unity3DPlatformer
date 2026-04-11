@@ -20,6 +20,8 @@ public class PickupInteractable : PhysicsInteractable
     [SerializeReference]
     [Conditional("InteractHoldingTossesObject",false)]
     public TriggerActionsList onTriggerActions = new TriggerActionsList();
+
+    
     
     public static int PickedUpObjectLayer {get; private set;} = -1;
     int originalLayer = 0;
@@ -110,5 +112,17 @@ public class PickupInteractable : PhysicsInteractable
             holdPosition.y += playerCollider.bounds.extents.y + meshFilter.sharedMesh.bounds.extents.y + holdHeight;
         }
         return holdPosition;
+    }
+
+    public override void Freeze()
+    { 
+        isFrozen = true;
+        rb.isKinematic = true;
+    }
+
+    public override void UnFreeze()
+    {
+        isFrozen = false;
+        rb.isKinematic = false;
     }
 } 
