@@ -42,6 +42,8 @@ public class InteractionController : MonoBehaviour
     public Collider PlayerCollider { get => playerCollider; }
     public Vector3 ThrowForce => throwForce;
 
+    public List<Interactable> listOfFrozenObjects = new List<Interactable>();
+
 
     public bool IsCurrentInteractingWithThis(Interactable otherInteractable)
     {
@@ -142,6 +144,7 @@ public class InteractionController : MonoBehaviour
          {
             Debug.Log("Freeze");
 
+            listOfFrozenObjects.Add(freezeableInteractable);
             freezeableInteractable.Freeze();
          }
 
@@ -149,10 +152,19 @@ public class InteractionController : MonoBehaviour
          {
             Debug.Log("UnFreeze");
 
+            listOfFrozenObjects.Remove(freezeableInteractable);
             freezeableInteractable.UnFreeze();
          }
         
-        
+    }
+
+    public void OnMeltAll()
+    {
+        foreach (Interactable frozenObject in listOfFrozenObjects)
+        {
+            frozenObject.UnFreeze();
+        }
+        listOfFrozenObjects.Clear();
     }
 
     void OnCancel()

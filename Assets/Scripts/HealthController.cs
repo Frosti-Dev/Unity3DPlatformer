@@ -42,6 +42,7 @@ public class HealthController : MonoBehaviour
 	public float invulnerabilityDuration = 0.9f;
 	[Tooltip("Color to flash when taking damage")]
 	public Color damageFlashColor = Color.red;
+
 	[Tooltip("Renderers that will flash when taking damage. If empty, uses all color-capable renderers")]
 	public Renderer[] renderersToFlash;
 
@@ -172,10 +173,11 @@ public class HealthController : MonoBehaviour
 	}
 	
 	
-	/// <summary>
-	/// Handles the death sequence including effects, respawn, or destruction
-	/// </summary>
-	private void HandleDeath()
+
+    /// <summary>
+    /// Handles the death sequence including effects, respawn, or destruction
+    /// </summary>
+    private void HandleDeath()
 	{
 		OnDeath?.Invoke();
 		

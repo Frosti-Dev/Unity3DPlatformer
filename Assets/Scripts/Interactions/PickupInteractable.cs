@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -21,16 +22,39 @@ public class PickupInteractable : PhysicsInteractable
     [Conditional("InteractHoldingTossesObject",false)]
     public TriggerActionsList onTriggerActions = new TriggerActionsList();
 
-    
-    
+    [Header("Freeze Color Change")]
+    private MeshRenderer mesh;
+
+    public Material normalMaterial;
+    public Material freezeMaterial;
+
+    public ParticleSystem frozenParticles;
+
     public static int PickedUpObjectLayer {get; private set;} = -1;
     int originalLayer = 0;
+
+    private void Start()
+    {
+        mesh = GetComponent<MeshRenderer>();
+
+        normalMaterial = mesh.material;
+
+        frozenParticles = GetComponentInChildren<ParticleSystem>();
+
+        if (frozenParticles != null)
+        {
+            frozenParticles.gameObject.SetActive(false);
+        }
+        
+    }
+
     private void OnJointBreak(float breakForce)
     {
         Debug.Log("JOINT BROKE!");
         if (currentInteractor != null)
             currentInteractor.EndCurrentInteraction();
     }
+
 
     protected override void AttachToController<T>(InteractionController controller)
     {
@@ -118,11 +142,19 @@ public class PickupInteractable : PhysicsInteractable
     { 
         isFrozen = true;
         rb.isKinematic = true;
+
+        mesh.material = freezeMaterial;
+        if (frozenParticles != null) frozenParticles.gameObject.SetActive(true);
     }
 
     public override void UnFreeze()
     {
         isFrozen = false;
         rb.isKinematic = false;
+
+        mesh.material = normalMaterial;
+        if (frozenParticles != null) frozenParticles.gameObject.SetActive(false) ;
     }
+
+    
 } 

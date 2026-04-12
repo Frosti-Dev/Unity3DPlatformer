@@ -83,6 +83,9 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 2
   m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -151,9 +154,11 @@ MonoBehaviour:
   damageAudioClip: {fileID: 0}
   deathAudioClip: {fileID: 0}
   health: 1
-  takesCollisionDamage: 0
+  takesCollisionDamageFromRigidbodies: 0
+  takesCollisionDamageFromStaticbodies: 0
   minCollisionDamageVelocity: 0.2
   shouldRespawn: 0
+  respawnAfterSeconds: 1.5
   ignoredCollisionTags: []
   damageFlashInterval: 0.1
   invulnerabilityDuration: 0.9
@@ -179,5 +184,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc522de6c86c5694fb561a4cb55d8151, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFrozen: 0
   weightMultiplierWhenHeld: 0.3
   holdHeight: 0.5
+  InteractHoldingTossesObject: 1
+  onTriggerActions:
+    rid: 8043352237434470462
+  normalMaterial: {fileID: 2100000, guid: f95e81f907b54b94aa8c6d649aef45bc, type: 2}
+  freezeMaterial: {fileID: 2100000, guid: 81b1ee90acb9a614a8c29f781d4a6d40, type: 2}
+  references:
+    version: 2
+    RefIds:
+    - rid: 8043352237434470462
+      type: {class: TriggerActionsList, ns: , asm: Assembly-CSharp}
+      data:
+        list: []
