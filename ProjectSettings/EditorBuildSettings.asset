@@ -11,9 +11,12 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/TransitionScene.unity
     guid: d4cd4fc9072dc90478a05345516e53fa
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/TutorialLevel.unity
     guid: 9d65e1a3c38bbed4486c443e2eea6449
+  - enabled: 1
+    path: Assets/Scenes/MechTest.unity
+    guid: 8698a884287257949add35b0d83e7194
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 885c5916c7dff26438524d41106c7fbc,
       type: 2}

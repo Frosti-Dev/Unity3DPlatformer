@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour
     private AdvancedMoveController moveController;
     private Rigidbody rb;
     private DashController dashController;
-    private WallRunning wr;
+    
     
     // Movement state
     private Vector3 moveDirection;
@@ -65,7 +65,6 @@ public class PlayerController : MonoBehaviour
         // Cache component references
         moveController = GetComponent<AdvancedMoveController>();
         rb = GetComponent<Rigidbody>();
-        wr = GetComponent<WallRunning>();
         CameraFollower = GetComponentInChildren<ThirdPersonCamera>();
         characterAnimator = GetComponentInChildren<Animator>();
         healthComponent = GetComponent<HealthController>();
